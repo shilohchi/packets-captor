@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf8"?>
+<app>
+	<!-- 网卡名称 -->
+	<network-interface>eth0</network-interface>
+	
+	<!-- 数据库主机，用户名，密码 -->
+	<database>
+		<host>172.20.52.137</host>
+		<user>root</user>
+		<password>root</password>
+	</database>
+
+	<!-- 底层过滤器 -->
+	<low-level-filters>
+		<rule>port 8080</rule>
+		<rule>src host 172.20.52.48</rule>
+		<rule>tcp only</rule>
+	</low-level-filters>
+
+	<!-- 应用层过滤器 -->
+	<application-layer-filters>
+		<rule>e-mail</rule>
+		<rule>TencentQQ</rule>
+	</application-layer-filters>
+</app>
