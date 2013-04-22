@@ -2,8 +2,11 @@
 #include "errors.h"
 #include <map>
 #include <string>
-#include <tinyxpath/tinyxml.h>
-#include <tinyxpath/xpath_processor.h>
+#include "tinyxpath/tinyxml.h"
+#include "tinyxpath/xpath_processor.h"
+
+#include <iostream>
+using namespace std;
 
 using namespace std;
 using namespace TinyXPath;
@@ -15,17 +18,18 @@ multimap<string, string>* ConfigSingleton::config = NULL;
 multimap<string, string>* ConfigSingleton::getConfig() {
 	if (ConfigSingleton::config == NULL) {
 
-		// 打开配置文件，即当前目录下的config.xml文件
+	
 		ConfigSingleton::config = new multimap<string, string>();
 		const char* filename = "config.xml";
 		TiXmlDocument doc(filename);
 		if (!doc.LoadFile()) {
+			
 			throw ConfigError("Cannot open config.xml!");
 		}
 		
 		TiXmlElement* root = doc.RootElement();
 		
-		// 网卡名称
+	
 		xpath_processor* xproc = new xpath_processor(root, "/app/network-interface");
 		unsigned int num = xproc->u_compute_xpath_node_set();
 		if (num != 1) {
@@ -35,7 +39,7 @@ multimap<string, string>* ConfigSingleton::getConfig() {
 		config->insert(make_pair("network-interface", e->GetText()));
 		delete xproc;
 
-		// 数据库
+	
 		xproc = new xpath_processor(root, "/app/database/host");
 		num = xproc->u_compute_xpath_node_set();
 		if (num != 1) {
@@ -63,7 +67,7 @@ multimap<string, string>* ConfigSingleton::getConfig() {
 		config->insert(make_pair("database-password", e->GetText()));
 		delete xproc;
 
-		// 低层过滤器
+		
 		xproc = new xpath_processor(root, "/app/low-level-filters/rule");
 		num = xproc->u_compute_xpath_node_set();
 		for (int i = 0; i < num; i++) {
@@ -72,7 +76,6 @@ multimap<string, string>* ConfigSingleton::getConfig() {
 		}
 		delete xproc;
 
-		// 应用层过滤器
 		xproc = new xpath_processor(root, "/app/application-layer-filters/rule");
 		num = xproc->u_compute_xpath_node_set();
 		for (int i = 0; i < num; i++) {
