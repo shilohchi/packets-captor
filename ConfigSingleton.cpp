@@ -27,7 +27,7 @@ multimap<string, string>* ConfigSingleton::getConfig() {
 		
 		// 网卡名称
 		xpath_processor* xproc = new xpath_processor(root, "/app/network-interface");
-		u_int num = xproc->u_compute_xpath_node_set();
+		unsigned int num = xproc->u_compute_xpath_node_set();
 		if (num != 1) {
 			throw ConfigError("There must be one and only one network interface name!");
 		}
