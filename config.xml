@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="utf8"?>
+<?xml version="1.0" encoding="gb2312"?>
 <app>
-	<!-- ç½‘å¡åç§° -->
-	<network-interface>eth0</network-interface>
+	<!-- Íø¿¨Ãû³Æ -->
+	<network-interface>rpcap://\Device\NPF_{C856DCD0-4D2B-4A77-A8FE-7A96DF69CC90}</network-interface>
 	
-	<!-- æ•°æ®åº“ä¸»æœºï¼Œç”¨æˆ·åï¼Œå¯†ç  -->
+	<!-- Êý¾Ý¿âÖ÷»ú£¬ÓÃ»§Ãû£¬ÃÜÂë -->
 	<database>
 		<host>172.20.52.137</host>
 		<user>root</user>
 		<password>root</password>
 	</database>
 
-	<!-- åº•å±‚è¿‡æ»¤å™¨ -->
+	<!-- µ×²ã¹ýÂËÆ÷ -->
 	<low-level-filters>
 		<rule>port 8080</rule>
 		<rule>src host 172.20.52.48</rule>
 		<rule>tcp only</rule>
 	</low-level-filters>
 
-	<!-- åº”ç”¨å±‚è¿‡æ»¤å™¨ -->
+	<!-- Ó¦ÓÃ²ã¹ýÂËÆ÷ -->
 	<application-layer-filters>
 		<rule>e-mail</rule>
 		<rule>TencentQQ</rule>
