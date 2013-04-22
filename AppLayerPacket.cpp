@@ -7,6 +7,19 @@
 #include "AppLayerPacket.h"
 using std::string;
 
+
+
+u_short AppLayerPacket:: ntohs(u_short port)
+{
+	u_short temp = 0;
+	char* cp =(char*)(&temp);
+	char* scp = (char*)(&port);
+
+	*cp = *(scp+1);
+	*(cp+1) = *scp;
+	return temp;
+
+}
 //构造函数
 // 参数说明 linkLayerPacket为链路层数据包
 AppLayerPacket::AppLayerPacket(LinkLayerPacket linkLayerPacket)
