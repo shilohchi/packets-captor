@@ -7,6 +7,7 @@
 #include "LiveNetDevice.h"
 #include "LinkLayerPacket.h"
 #include "ConfigSingleton.h"
+#include "AppLayerPacket.h"
 #include <map>
 
 
@@ -22,6 +23,9 @@ int main()
 	pcap_if_t* device = NULL;
 	pcap_t *dhandle = NULL;
 	char errbuf[PCAP_ERRBUF_SIZE];
+	const char* filterStr = "ip and tcp port 80 ";
+	u_int netmask;
+	struct bpf_program fcode;
 
 	multimap<string,string>* config = ConfigSingleton::getConfig();
 	multimap<string,string>::iterator iter = config->find("network-interface");
@@ -68,6 +72,31 @@ int main()
 		return 0;
 	}
 
+	if(device->addresses != NULL)
+		/* 获得接口第一个地址的掩码 */
+		netmask=((struct sockaddr_in *)(device->addresses->netmask))->sin_addr.S_un.S_addr;
+	else
+		/* 如果接口没有地址，那么我们假设一个C类的掩码 */
+		netmask=0xffffff; 
+
+
+	//编译过滤器
+	if (pcap_compile(dhandle, &fcode, filterStr, 1, netmask) <0 )
+	{
+		fprintf(stderr,"\nUnable to compile the packet filter. Check the syntax.\n");
+		/* 释放设备列表 */
+		return -1;
+	}
+
+	//设置过滤器
+	if (pcap_setfilter(dhandle, &fcode)<0)
+	{
+		fprintf(stderr,"\nError setting the filter.\n");
+		/* 释放设备列表 */
+		return -1;
+	}
+
+
 	if(pcap_loop(dhandle,0,packet_handler,NULL)==-1)
 	{
 		cout<<"an error of capturing has been occurred!";
@@ -82,24 +111,9 @@ static int ccount = 1;
 void packet_handler(u_char *param, const struct pcap_pkthdr* header, const u_char* data)
 {
 	
-	
-	if (ccount<5)
-	{
-		LinkLayerPacket linkLayerPacket(header,data);
-		packetQueue.push(linkLayerPacket);
+	LinkLayerPacket link(header,data);
+	AppLayerPacket app(link);
 
-		struct tm *ltime;
-		char timestr[16];
-		time_t local_tv_sec;
-
-		/* 将时间戳转换成可识别的格式 */
-		local_tv_sec = header->ts.tv_sec;
-		ltime=localtime(&local_tv_sec);
-		strftime( timestr, sizeof timestr, "%H:%M:%S", ltime);
-
-		printf("%s,%.6d len:%d\n", timestr, header->ts.tv_usec, header->len);
-
-		ccount++;
-	}	
+	cout<<app.src_ip<<":"<<app.src_port<<"------>"<<app.dst_ip<<":"<<app.dst_port<<endl;
 	
 }

@@ -32,6 +32,7 @@ private:
 	bool isTcpPacket(LinkLayerPacket linkLayerPacket);
 	string IntToString(u_char c);
 	string IpToString(ip_address ipAddress);
+	u_short ntohs(u_short port);
 
 };  
         
