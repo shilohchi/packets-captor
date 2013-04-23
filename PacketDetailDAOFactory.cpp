@@ -2,11 +2,12 @@
 #include <string>
 #include "MysqlPacketDetailDAO.h"
 #include "errors.h"
+#include "IPacketDetailDAO.h"
 
-PacketDetailDAOFactory* PacketDetailDAOFactory::getPacketDetailDAO(string dbtype) {
+IPacketDetailDAO* PacketDetailDAOFactory::getPacketDetailDAO(string dbtype) {
 	if (dbtype == "mysql") {
 		return new MysqlPacketDetailDAO();
 	} else {
-		throw UnsupportedDatabaseError(dbtype);
+		throw UnsupportedDatabaseError("");
 	}
 }

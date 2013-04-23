@@ -2,8 +2,11 @@
 #define PACKETDETAILDAOFACTORY_H_
 
 #include "IPacketDetailDAO.h"
+#include "MysqlPacketDetailDAO.h"
 
 class PacketDetailDAOFactory {
 public:
-	IPacketDetailDAO* getPacketDetailDAO(string dbtype);
-}
+	static IPacketDetailDAO* getPacketDetailDAO(string dbtype);
+};
+
+#endif

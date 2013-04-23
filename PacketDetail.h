@@ -1,9 +1,9 @@
-#ifdef PACKETDETAIL_H_
+#ifndef PACKETDETAIL_H_
 #define PACKETDETAIL_H_
 
 #include <QDateTime>
 #include <QByteArray>
-#include <string>
+#include <QString>
 using namespace std;
 
 struct PacketDetail {
@@ -11,12 +11,12 @@ struct PacketDetail {
 	int len;
 	QDateTime timestamp;
 	QByteArray data;
-	string src_ip;
-	string dst_ip;
+	QString src_ip;
+	QString dst_ip;
 	int src_port;
 	int dst_port;
-	string transport_protocol;
-	string application_protocol;
+	QString transport_protocol;
+	QString application_protocol;
 };
 
 #endif
