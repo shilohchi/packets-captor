@@ -10,4 +10,13 @@ public:
 	ConfigError(const char* msg);
 };
 
+class SqlError : public runtime_error {
+public:
+	SqlError(const char* msg);
+};
+
+class UnsupportedDatabaseError : public logic_error {
+public:
+	UnsupportedDatabaseError(const char* msg);
+};
 #endif

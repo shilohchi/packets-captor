@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="gb2312"?>
+<?xml version="1.0" encoding="utf-8"?>
 <app>
-	<!-- 网卡名称 -->
+	<!-- 缃戝崱鍚嶇О -->
 	<network-interface>rpcap://\Device\NPF_{C856DCD0-4D2B-4A77-A8FE-7A96DF69CC90}</network-interface>
 	
-	<!-- 数据库主机，用户名，密码 -->
+	<!-- 鏁版嵁搴撲富鏈猴紝鐢ㄦ埛鍚嶏紝瀵嗙爜 -->
 	<database>
 		<host>172.20.52.137</host>
 		<user>root</user>
 		<password>root</password>
 	</database>
 
-	<!-- 底层过滤器 -->
+	<!-- 搴曞眰杩囨护鍣� -->
 	<low-level-filters>
 		<rule>(ip and tcp) or (ip and udp)</rule>
 	</low-level-filters>
 
-	<!-- 应用层过滤器 -->
+	<!-- 搴旂敤灞傝繃婊ゅ櫒 -->
 	<application-layer-filters>
 		<rule>e-mail</rule>
 		<rule>TencentQQ</rule>
