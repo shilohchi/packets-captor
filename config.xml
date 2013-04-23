@@ -12,9 +12,7 @@
 
 	<!-- µ×²ã¹ýÂËÆ÷ -->
 	<low-level-filters>
-		<rule>port 8080</rule>
-		<rule>src host 172.20.52.48</rule>
-		<rule>tcp only</rule>
+		<rule>(ip and tcp) or (ip and udp)</rule>
 	</low-level-filters>
 
 	<!-- Ó¦ÓÃ²ã¹ýÂËÆ÷ -->

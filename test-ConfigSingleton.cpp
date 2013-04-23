@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int __main() {
+int ___main() {
 
 	cout<<"dfa1"<<endl;
 	multimap<string, string>* config = ConfigSingleton::getConfig();
