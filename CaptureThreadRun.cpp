@@ -23,14 +23,17 @@ int main()
 	pcap_if_t* device = NULL;
 	pcap_t *dhandle = NULL;
 	char errbuf[PCAP_ERRBUF_SIZE];
-	const char* filterStr = "ip and tcp port 80 ";
+	//const char* filterStr = "(ip and tcp) or (ip and udp)";
+	
+	char* filterCp;
+
 	u_int netmask;
 	struct bpf_program fcode;
 
 	multimap<string,string>* config = ConfigSingleton::getConfig();
 	multimap<string,string>::iterator iter = config->find("network-interface");
 	string interfaceName = iter->second;
-	
+
 	char* deviceName = new char[interfaceName.size()+1];
 
 	int i = 0;
@@ -40,6 +43,25 @@ int main()
 	}
 	deviceName[i] = '\0';
 
+	
+	string filterStrs = "";
+
+	for(iter = config->lower_bound("low-level-filter");iter!=config->upper_bound("low-level-filter");iter++)
+	{
+		string temp = iter->second;
+		
+		filterStrs += temp;
+	}
+	
+	filterCp = new char[filterStrs.size()+1];
+	i = 0;
+	for( i = 0 ;i<filterStrs.size();i++)
+	{
+		filterCp[i] = filterStrs[i];
+	}
+	filterCp[i] = '\0';
+
+	
 	
 	LiveNetDevice* liveNetDevice = LiveNetDevice::getInstance();
 	std::vector<pcap_if_t*> devices = liveNetDevice->getAllNetDevice();
@@ -81,7 +103,7 @@ int main()
 
 
 	//编译过滤器
-	if (pcap_compile(dhandle, &fcode, filterStr, 1, netmask) <0 )
+	if (pcap_compile(dhandle, &fcode, filterCp, 1, netmask) <0 )
 	{
 		fprintf(stderr,"\nUnable to compile the packet filter. Check the syntax.\n");
 		/* 释放设备列表 */
