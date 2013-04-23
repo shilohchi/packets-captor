@@ -67,6 +67,14 @@ multimap<string, string>* ConfigSingleton::getConfig() {
 		config->insert(make_pair("database-password", e->GetText()));
 		delete xproc;
 
+		xproc = new xpath_processor(root, "/app/database/name");
+		num = xproc->u_compute_xpath_node_set();
+		if (num != 1) {
+			throw ConfigError("Requires (only) one database name.");
+		}
+		e = (TiXmlElement*) (xproc->XNp_get_xpath_node(0));
+		config->insert(make_pair("database-name", e->GetText()));
+		delete xproc;
 		
 		xproc = new xpath_processor(root, "/app/low-level-filters/rule");
 		num = xproc->u_compute_xpath_node_set();

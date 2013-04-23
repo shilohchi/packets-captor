@@ -1,3 +1,5 @@
+#include <iostream>
+#include <string>
 #include "MysqlPacketDetailDAO.h"
 #include "ConfigSingleton.h"
 #include <map>
@@ -5,6 +7,7 @@
 #include <string>
 #include "errors.h"
 #include "PacketDetail.h"
+#include <QString>
 
 using namespace std;
 
@@ -14,12 +17,13 @@ void MysqlPacketDetailDAO::open() {
 
 	this->db = QSqlDatabase::addDatabase("QMYSQL");
 	it = config->find("database-host");
-	db.setHostName(it->second);
+	db.setHostName(QString::fromStdString(it->second));
 	it = config->find("database-user");
-	db.setUserName(it->second);
+	db.setUserName(QString::fromStdString(it->second));
 	it = config->find("database-password");
-	db.setPassword(it->second);
+	db.setPassword(QString::fromStdString(it->second));
 	it = config->find("database-name");
+	db.setDatabaseName(QString::fromStdString(it->second));
 
 	if (!db.open()) {
 		throw SqlError("Cannot open the database!");	
@@ -30,12 +34,12 @@ void MysqlPacketDetailDAO::close() {
 	this->db.close();
 }
 
-void insert(const PacketDetail& packet) {
+void MysqlPacketDetailDAO::insert(const PacketDetail& packet) {
 	QString sql = "insert into packets_details ("
 			"caplen, len, timestamp, data, src_ip, dst_ip, "
 			"src_port, dst_port, transport_protocol, "
-			"application_protocol) values (:caplen, :len "
-			":timestamp, :src_port, :dst_ip, :src_port "
+			"application_protocol) values (:caplen, :len, "
+			":timestamp, :data, :src_port, :dst_ip, :src_port, "
 			":dst_port, :transport_protocol, :application_protocol)";
 	QSqlQuery query;
 	query.prepare(sql);
@@ -49,5 +53,7 @@ void insert(const PacketDetail& packet) {
 	query.bindValue(":dst_port", packet.dst_port);
 	query.bindValue(":transport_protocol", packet.transport_protocol);
 	query.bindValue(":application_protocol", packet.application_protocol);
-	query.exec();
+	if (!query.exec()) {
+		throw SqlError("failed to insert!");
+	}
 }

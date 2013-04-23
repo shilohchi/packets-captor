@@ -5,9 +5,10 @@
 	
 	<!-- 数据库主机，用户名，密码 -->
 	<database>
-		<host>172.20.52.137</host>
+		<host>172.20.52.48</host>
 		<user>root</user>
 		<password>root</password>
+		<name>live_capture</name>
 	</database>
 
 	<!-- 底层过滤器 -->
