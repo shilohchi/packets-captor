@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app>
-	<!-- 网卡名称 -->
+
 	<network-interface>rpcap://\Device\NPF_{C856DCD0-4D2B-4A77-A8FE-7A96DF69CC90}</network-interface>
 	
-	<!-- 数据库主机，用户名，密码 -->
+
 	<database>
 		<host>172.20.52.48</host>
 		<user>root</user>
@@ -11,12 +11,10 @@
 		<name>live_capture</name>
 	</database>
 
-	<!-- 底层过滤器 -->
 	<low-level-filters>
 		<rule>(ip and tcp) or (ip and udp)</rule>
 	</low-level-filters>
 
-	<!-- 应用层过滤器 -->
 	<application-layer-filters>
 		<rule>e-mail</rule>
 		<rule>TencentQQ</rule>
