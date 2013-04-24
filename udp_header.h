@@ -6,7 +6,6 @@ typedef struct udp_header{
 	u_short dport;          
 	u_short len;         
 	u_short crc; 
-
 }udp_header;
 
 #endif
