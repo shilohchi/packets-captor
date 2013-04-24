@@ -48,7 +48,7 @@ void LiveNetDevice::destroy()
 	}
 }
 
-//返回所有的设备列表
+
 vector<pcap_if_t*> &  LiveNetDevice::getAllNetDevice()
 {
 	return allNetDevice;

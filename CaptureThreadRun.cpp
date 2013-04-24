@@ -95,26 +95,25 @@ int main()
 	}
 
 	if(device->addresses != NULL)
-		/* 获得接口第一个地址的掩码 */
+	
 		netmask=((struct sockaddr_in *)(device->addresses->netmask))->sin_addr.S_un.S_addr;
 	else
-		/* 如果接口没有地址，那么我们假设一个C类的掩码 */
+		
 		netmask=0xffffff; 
 
 
-	//编译过滤器
 	if (pcap_compile(dhandle, &fcode, filterCp, 1, netmask) <0 )
 	{
 		fprintf(stderr,"\nUnable to compile the packet filter. Check the syntax.\n");
-		/* 释放设备列表 */
+		
 		return -1;
 	}
 
-	//设置过滤器
+
 	if (pcap_setfilter(dhandle, &fcode)<0)
 	{
 		fprintf(stderr,"\nError setting the filter.\n");
-		/* 释放设备列表 */
+	
 		return -1;
 	}
 

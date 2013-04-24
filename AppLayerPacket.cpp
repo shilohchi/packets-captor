@@ -20,8 +20,7 @@ u_short AppLayerPacket:: ntohs(u_short port)
 	return temp;
 
 }
-//构造函数
-// 参数说明 linkLayerPacket为链路层数据包
+
 AppLayerPacket::AppLayerPacket(LinkLayerPacket linkLayerPacket)
 {
 	this->ts = linkLayerPacket.header.ts;
@@ -63,7 +62,7 @@ AppLayerPacket::AppLayerPacket(const AppLayerPacket& appLayerPacket)
 	this->app_layer_protocoal = appLayerPacket.app_layer_protocoal;
 }
 
-//判断链路层数据包的传输层协议是否为UDP协议，如果是返回true，否则返回false
+
 bool  AppLayerPacket::isUdpPacket(LinkLayerPacket linkLayerPacket)
 {
 	bool flag = false;
@@ -75,7 +74,7 @@ bool  AppLayerPacket::isUdpPacket(LinkLayerPacket linkLayerPacket)
 	return flag;
 }
 
-//判断链路层数据包的传输层协议是否为TCP协议，如果是返回true，否则返回false
+
 bool AppLayerPacket::isTcpPacket(LinkLayerPacket linkLayerPacket)
 {
 	bool flag = false;
@@ -87,7 +86,7 @@ bool AppLayerPacket::isTcpPacket(LinkLayerPacket linkLayerPacket)
 	return flag;
 }
 
-//将链路层帧解析成所需的应用层UDP数据包，所传入包传输层必须是UDP协议
+
 void AppLayerPacket::processUdpPacket(LinkLayerPacket linkLayerPacket)
 {
 	this->tran_layer_protocol = "udp";
@@ -105,7 +104,7 @@ void AppLayerPacket::processUdpPacket(LinkLayerPacket linkLayerPacket)
 
 }
 
-//将链路层帧解析成所需的应用层TCP数据包，所传入包传输层必须是TCP协议
+
 void AppLayerPacket::processTcpPacket(LinkLayerPacket linkLayerPacket)
 {
 
