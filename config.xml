@@ -2,7 +2,6 @@
 <app>
 
 	<network-interface>eth0</network-interface>
-	
 
 	<database>
 		<host>172.20.52.48</host>
