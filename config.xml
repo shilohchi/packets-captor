@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app>
 
-	<network-interface>rpcap://\Device\NPF_{C856DCD0-4D2B-4A77-A8FE-7A96DF69CC90}</network-interface>
+	<network-interface>eth0</network-interface>
 	
 
 	<database>

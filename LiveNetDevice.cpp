@@ -14,7 +14,7 @@ LiveNetDevice::LiveNetDevice()
 	char errBuf[PCAP_ERRBUF_SIZE];
 
 
-	if(pcap_findalldevs_ex(PCAP_SRC_IF_STRING,NULL,&deviceList,errBuf)==-1)
+	if(pcap_findalldevs(&deviceList,errBuf)==-1)
 	{   
 		return ;
 	}
