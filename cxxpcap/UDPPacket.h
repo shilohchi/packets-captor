@@ -17,10 +17,10 @@ protected:
 public:
 	typedef std::uint8_t* const_iterator;
 
-	static bool isValid(std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
+	static bool isValid(const std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
 
-	UDPPacket(std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
-	UDPPacket(int length, timeval timestamp, std::uint8_t* raw_data, int raw_data_length,
+	UDPPacket(const std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
+	UDPPacket(int length, timeval timestamp, const std::uint8_t* raw_data, int raw_data_length,
 			Protocol datalink_protocol);
 	UDPPacket(const UDPPacket& p);
 
@@ -32,8 +32,8 @@ public:
 	Protocol getUDPProtocol();
 	int getUDPHeaderLength();
 	
-	int getSourcePort();
-	int getDestinationPort();
+	int getSourcePort() const;
+	int getDestinationPort() const;
 };
 }
 

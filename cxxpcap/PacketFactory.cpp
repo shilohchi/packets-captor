@@ -7,10 +7,14 @@
 #include "cxxpcap/utils.h"
 #include <cstdint>
 #include <ctime>
+#include <memory>
+#include <glog/logging.h>
+
+using namespace std;
 
 namespace cxxpcap {
-Packet* PacketFactory::createPacket(int length, timeval timestamp, 
-		uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol) {
+shared_ptr<const Packet> PacketFactory::createPacket(int length, timeval timestamp, 
+		const uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol) {
 	Protocol protocol = Protocol::Unknown;
 
 	if (InetPacket::isValid(raw_data, raw_data_length, datalink_protocol)) {
@@ -25,22 +29,30 @@ Packet* PacketFactory::createPacket(int length, timeval timestamp,
 		}
 	}
 	
-	Packet* packet;
+	shared_ptr<const Packet> packet;
+	shared_ptr<const IPPacket> ippkt;
+	shared_ptr<const UDPPacket> udppkt;
+	shared_ptr<const TCPPacket> tcppkt;
 	switch (protocol) {
 	case Protocol::Unknown:
-		packet = new Packet(length, timestamp, raw_data, raw_data_length);
+		packet = shared_ptr<const Packet>(new Packet(length, timestamp, raw_data, raw_data_length));
 		break;
 	case Protocol::INET:
-		packet = new InetPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol);
+		packet = shared_ptr<const Packet>(new InetPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol));
 		break;
 	case Protocol::IP:
-		packet = new IPPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol);	
+		packet = shared_ptr<const Packet>(new IPPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol));	
+		ippkt = dynamic_pointer_cast<const IPPacket>(packet);
 		break;
 	case Protocol::UDP:
-		packet = new UDPPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol);	
+		packet = shared_ptr<const Packet>(new UDPPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol));	
 		break;
 	case Protocol::TCP:
-		packet = new TCPPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol);	
+		DLOG(INFO) << "TCP";
+		packet = shared_ptr<const Packet>(new TCPPacket(length, timestamp, raw_data, raw_data_length, datalink_protocol));	
+		tcppkt = dynamic_pointer_cast<const TCPPacket>(packet);
+		DLOG(INFO) << tcppkt->getSourceIP() << ":" << tcppkt->getSourcePort() << " -> " << 
+				tcppkt->getDestinationIP() << ":" << tcppkt->getDestinationPort();
 		break;
 	}
 

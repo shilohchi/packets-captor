@@ -19,6 +19,5 @@ public:
 
 int main() {
 	Sample s = Sample('b');
-	Sample t('t');
-	t = s;
+	Sample t = Sample('t');
 }	

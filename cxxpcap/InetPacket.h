@@ -4,11 +4,12 @@
 #include "cxxpcap/Packet.h"
 #include "cxxpcap/utils.h"
 #include "cxxpcap/DatalinkInfo.h"
+#include <memory>
 
 namespace cxxpcap {
 class InetPacket : public Packet {
 private:
-	DatalinkInfo* datalinkInfo;
+	std::shared_ptr<DatalinkInfo> datalinkInfo;
 
 protected:
 	std::uint8_t* datalink_header;
@@ -17,22 +18,22 @@ protected:
 public:
 	typedef const std::uint8_t* const_iterator;
 
-	static bool isValid(std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
+	static bool isValid(const std::uint8_t* raw_data, const int raw_data_length, Protocol datalink_protocol);
 
-	InetPacket(std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
-	InetPacket(int length, timeval timestamp, std::uint8_t* raw_data,
+	InetPacket(const std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
+	InetPacket(int length, timeval timestamp, const std::uint8_t* raw_data,
 			int raw_data_length, Protocol datalink_protocol);
 	InetPacket(const InetPacket& p);
 
-	DatalinkInfo* getDatalinkInfo();
+	std::shared_ptr<DatalinkInfo> getDatalinkInfo() const;
 
-	Protocol getDatalinkProtocol();
+	Protocol getDatalinkProtocol() const;
 
-	InetPacket::const_iterator datalink_header_begin();
-	InetPacket::const_iterator datalink_header_end();
+	InetPacket::const_iterator datalink_header_begin() const;
+	InetPacket::const_iterator datalink_header_end() const;
 
-	InetPacket::const_iterator datalink_data_begin();
-	InetPacket::const_iterator datalink_data_end();
+	InetPacket::const_iterator datalink_data_begin() const;
+	InetPacket::const_iterator datalink_data_end() const;
 };
 }
 

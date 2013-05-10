@@ -1,29 +1,32 @@
 #include <iostream>
 #include <memory>
 using namespace std;
-
 class Manager {
 private:
 	static shared_ptr<Manager> mgr;
 
-	Manager() {
-		cout << "construct Manager" << endl;
+	Manager(int n) {
+		this->n = n;
+		cout << "construct Manager: " << endl;
 	}
 
+	int n;
 
 public:
 	static shared_ptr<Manager> getManager() {
 		if (!mgr) {
-			mgr = new Manager();
+			mgr = shared_ptr<Manager>(new Manager(3));
 		}
 		return mgr;
 	}
 
 	~Manager() {
-		cout << "~Manager" << endl;
+		cout << "~Manager: " << n << endl;
 	}
 };
 
+shared_ptr<Manager> Manager::mgr;
+
 int main() {
-	shared_ptr<Manager> p = Manager.getManager();
+	shared_ptr<Manager> p = Manager::getManager();
 }

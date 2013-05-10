@@ -18,7 +18,7 @@ EthernetInfo::~EthernetInfo() {
 Protocol EthernetInfo::getProtocol() {
 	Protocol protocol;
 
-	switch (*((uint16_t*) header[12])) {
+	switch (*((uint16_t*) (header + 12))) {
 	case 0x0008:
 		protocol =  Protocol::IP;
 		break;
@@ -35,7 +35,7 @@ Protocol EthernetInfo::getProtocol() {
 	return protocol;
 }
 
-int Ethernet::getLength() {
+int EthernetInfo::getLength() {
 	return LENGTH;
 }
 }

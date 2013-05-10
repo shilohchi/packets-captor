@@ -17,19 +17,19 @@ protected:
 public:
 	typedef const std::uint8_t* const_iterator;
 	
-	Packet(std::uint8_t* raw_data, int raw_data_length);
-	Packet(int length, timeval timestamp, std::uint8_t* raw_data, int raw_data_length);
+	Packet(const std::uint8_t* raw_data, int raw_data_length);
+	Packet(int length, timeval timestamp, const std::uint8_t* raw_data, int raw_data_length);
 	Packet(const Packet& p);
 
 	~Packet();
 
-	int getLength();
-	timeval getTimestamp();
+	virtual int getLength() const;
+	virtual timeval getTimestamp() const;
 
-	Packet::const_iterator raw_data_begin();
-	Packet::const_iterator raw_data_end();
+	Packet::const_iterator raw_data_begin() const;
+	Packet::const_iterator raw_data_end() const;
 
-	int raw_data_length();
+	virtual int raw_data_length() const;
 };
 }
 #endif

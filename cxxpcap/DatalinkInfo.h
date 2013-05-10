@@ -7,7 +7,6 @@
 namespace cxxpcap {
 class DatalinkInfo {
 public:
-	virtual ~DatalinkInfo() = 0;
 	virtual Protocol getProtocol() = 0;
 	virtual int getLength() = 0;
 };

@@ -4,8 +4,12 @@
 #include "cxxpcap/utils.h"
 #include <string>
 #include <vector>
+#include <memory>
+#include <functional>
+#include "cxxpcap/Packet.h"
 
 namespace cxxpcap {
+
 class PacketCapture {
 private:
 	const static int DEFAULT_SNAPLEN = 96;
@@ -20,20 +24,33 @@ private:
 	
 	pcap_t* capture;
 
-	void stringToArray(const std::string& s, char*& p);
+	std::vector<std::function<void(std::shared_ptr<const Packet>)>> handlers;
 
 public:
-	static void findAllDevices(std::vector<NetworkInterface>& list);
+	static std::shared_ptr<std::vector<NetworkInterface> > findAllDevices();
 	
 	PacketCapture();
+	
+	PacketCapture(const PacketCapture&) = delete;
+	
+	PacketCapture& operator=(const PacketCapture&) = delete;
+	
+	Protocol getDatalinkType();
+	
 
 	void setFilter(std::string filter);
 	
-	void open(std::string device, bool promisc, int snaplen = DEFAULT_SNAPLEN, int timeout = DEFAULT_TIMEOUT);
+	void addHandler(std::function<void(std::shared_ptr<const Packet>)> handler);
 
-	void startCapturing(int count = -1);
+	void fireEvent(std::shared_ptr<const Packet> packet);
 
-	void stopCapturing();
+	void removeAllHandlers();
+
+	void open(std::string device, bool promisc = 1, int snaplen = DEFAULT_SNAPLEN, int timeout = DEFAULT_TIMEOUT);
+	
+	void start(int count = -1);
+
+	void stop();
 
 	void close();
 };

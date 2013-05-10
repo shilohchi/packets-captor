@@ -18,10 +18,10 @@ protected:
 public:
 	typedef const uint8_t* const_iterator;
 	
-	static bool isValid(std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
+	static bool isValid(const std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
 
-	IPPacket(std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
-	IPPacket(int length, timeval timestamp, std::uint8_t* raw_data,
+	IPPacket(const std::uint8_t* raw_data, int raw_data_length, Protocol datalink_protocol);
+	IPPacket(int length, timeval timestamp, const std::uint8_t* raw_data,
 			int raw_data_length, Protocol datalink_protocol);
 	IPPacket(const IPPacket& p);
 
@@ -30,11 +30,13 @@ public:
 	IPPacket::const_iterator ip_data_begin();
 	IPPacket::const_iterator ip_data_end();
 
-	Protocol getIPProtocol();
-	int getIPHeaderLength();
+	Protocol getIPProtocol() const;
+	int getIPHeaderLength() const;
 
-	std::string getSourceIP();
-	std::string getDestinationIP();
+	std::string getSourceIP() const;
+	std::string getDestinationIP() const;
+
+	int getIPVersion() const;
 };
 }
 #endif
